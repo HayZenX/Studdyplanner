@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: studyplanner
+
+  # Configuration de la base de données H2 [cite: 156, 157]
+  datasource:
+    url: jdbc:h2:mem:studyplannerdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+
+  # Configuration JPA / Hibernate [cite: 158]
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # --- AJOUT POUR LA SÉCURITÉ ET LES TESTS ---
+  security:
+    user:
+      name: user
+      password: password
+
+# Configuration de Spring Boot Actuator [cite: 159, 160]
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info
+  endpoint:
+    health:
+      show-details: always
+      # Ajout pour garantir que ton indicateur custom est bien prioritaire
+      group:
+        readiness:
+          include: db, studyLoad
